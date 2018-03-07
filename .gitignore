@@ -1,5 +1,10 @@
+app/autoload.php
+app/bootstrap.php
+app/etc
+app/functions.php
 auth.json.sample
 bin/
+CHANGELOG.md
 composer.lock
 CONTRIBUTING.md
 COPYING.txt
