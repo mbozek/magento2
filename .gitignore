@@ -32,3 +32,5 @@ update/
 .user.ini
 var/
 vendor/
+
+docker/env/mysql/*

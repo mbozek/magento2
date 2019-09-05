@@ -1,0 +1,60 @@
+version: '3.5'
+services:
+ mage_nginx:
+  build: ./docker/nginx/
+  container_name: mage_nginx
+#  ports:
+#  - '7431:80'
+  volumes:
+   - .:/var/www/html
+   - ./docker/nginx/conf/:/etc/nginx/conf.d
+  links:
+   - mage_php
+  networks:
+   application_network:
+    ipv4_address: 174.21.0.2
+ mage_php:
+  image: php:7.1-fpm
+  container_name: mage_php
+  volumes:
+   - .:/var/www/html
+  networks:
+   application_network:
+    ipv4_address: 174.21.0.3
+ mage_phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  container_name: mage_phpmyadmin
+  volumes:
+   - ./docker/env/mysql/:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: mage
+   MYSQL_USER: mage
+   MYSQL_PASSWORD: mage
+   MYSQL_DATABASE: mage
+  links:
+    - mage_mysql
+  networks:
+   application_network:
+    ipv4_address: 174.21.0.4
+ mage_mysql:
+  image: mysql:5.7
+  container_name: mage_mysql
+#  ports:
+#   - "3301:3306"
+  volumes:
+   - ./docker/env/mysql/:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: mage
+   MYSQL_USER: mage
+   MYSQL_PASSWORD: mage
+   MYSQL_DATABASE: mage
+  networks:
+   application_network:
+    ipv4_address: 174.21.0.5
+networks:
+ application_network:
+  name: mage_net
+  ipam:
+   driver: default
+   config:
+    - subnet: 174.21.0.0/16
