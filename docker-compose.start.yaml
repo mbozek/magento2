@@ -1,0 +1,7 @@
+version: '3.5'
+services:
+ mage_install:
+  build: ./docker/composer/
+  container_name: mage_install
+  volumes:
+   - .:/var/www/html
